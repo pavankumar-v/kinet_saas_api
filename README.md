@@ -1,2 +1,2 @@
-# kinet_saas_api
+# Kinet SaaS API
 Kinet Project Management Software
