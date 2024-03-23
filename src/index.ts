@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { checkJwt } from './middleware/auth'
 
+const env = process.env.NODE_ENV ?? 'development'
+dotenv.config({ path: `.env.${env}` })
+dotenv.config({ path: '.env' })
 
 dotenv.config();
 
