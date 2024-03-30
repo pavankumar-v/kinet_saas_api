@@ -9,11 +9,11 @@ export const checkJwt = expressjwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: 'https://kinet-dev1024.us.auth0.com/.well-known/jwks.json',
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
     }) as GetVerificationKey,
 
     // Validate the audience and the issuer
-    audience: 'https://kinet-dev1024.us.auth0.com/api/v2/', // replace with your API's audience, available at Dashboard > APIs
-    issuer: 'https://kinet-dev1024.us.auth0.com/',
+    audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/`, // replace with your API's audience, available at Dashboard > APIs
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
     algorithms: ['RS256'],
 });
