@@ -1,5 +1,11 @@
 import { userController } from '@/controller';
-import express from 'express';
-const router = express.Router();
+import { checkJwt } from '@/middleware/auth';
+import express, { Router } from 'express';
 
-router.post('/users', userController.createUser);
+const router: Router = express.Router();
+
+// private routes
+router.use(checkJwt);
+router.post('/', userController.createUser);
+
+export const userRoutes: Router = router;

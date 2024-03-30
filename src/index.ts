@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { checkJwt } from './middleware/auth';
+import { userRoutes } from '@/routes/index';
 import './config';
 
 const app: Express = express();
@@ -16,6 +17,7 @@ app.use(
     }),
 );
 
+app.use('/users', userRoutes);
 // create timesheets API endpoint - code omitted
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.get('/protected', checkJwt, function (req, res) {
