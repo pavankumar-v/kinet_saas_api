@@ -9,6 +9,7 @@ export class userController {
             const user = await User.findUnique({
                 where: { auth0_id: auth0_id },
             });
+
             if (user) {
                 res.status(201).send('user exists');
             } else {
