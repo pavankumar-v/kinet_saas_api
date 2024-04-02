@@ -1,7 +1,7 @@
 import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { userRoutes } from '@/routes/index';
+import { userRoutes, webhookRoutes } from '@/routes/index';
 import './config';
 
 const app: Express = express();
@@ -17,6 +17,7 @@ app.use(
 );
 
 app.use('/users', userRoutes);
+app.use('/webhooks', webhookRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Running');
