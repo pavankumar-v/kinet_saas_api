@@ -20,7 +20,7 @@ app.use('/users', userRoutes);
 app.use('/webhooks', webhookRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Running');
+    res.send('hello server running 😉');
 });
 
 const port = process.env.PORT ?? 3000;
