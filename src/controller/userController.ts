@@ -5,16 +5,16 @@ const User = prisma.user;
 export class userController {
     static createUser = async (req: Request, res: Response) => {
         try {
-            const { email, given_name, family_name, auth0_id } = req.body['user'];
+            const { email, given_name, family_name, user_id } = req.body['user'];
             const user = await User.findUnique({
-                where: { auth0_id: auth0_id },
+                where: { auth0_id: user_id },
             });
 
             if (user) {
                 res.status(201).send('user exists');
             } else {
                 const newUser = await User.create({
-                    data: { email, family_name, given_name, auth0_id },
+                    data: { email, family_name, given_name, auth0_id: user_id },
                 }).catch((err) => {
                     console.log(err);
                 });
