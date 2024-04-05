@@ -8,8 +8,24 @@ const app: Express = express();
 // Enable CORS
 app.use(cors());
 
+// TODO: move to build file .d.ts, facing errors currently
+declare module 'http' {
+  export interface IncomingMessage {
+    rawBody: string;
+  }
+}
+
 // Enable the use of request body parsing middleware
-app.use(bodyParser.json());
+app.use(
+    bodyParser.json({
+        verify: (req, res, buf) => {
+            if (buf && buf.length) {
+                req.rawBody = buf.toString();
+            }
+        },
+    }),
+);
+
 app.use(
     bodyParser.urlencoded({
         extended: true,
