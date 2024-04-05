@@ -15,5 +15,11 @@ model User {
   updatedAt   DateTime  @default(now())
   family_name String
   given_name  String
+  Account     Account[]
 }
+
+model Account {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
