@@ -1,32 +1,42 @@
 import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { checkJwt } from './middleware/auth';
+import { userRoutes, webhookRoutes } from '@/routes/index';
 import './config';
 
 const app: Express = express();
 // Enable CORS
 app.use(cors());
 
+// TODO: move to build file .d.ts, facing errors currently
+declare module 'http' {
+  export interface IncomingMessage {
+    rawBody: string;
+  }
+}
+
 // Enable the use of request body parsing middleware
-app.use(bodyParser.json());
+app.use(
+    bodyParser.json({
+        verify: (req, res, buf) => {
+            if (buf && buf.length) {
+                req.rawBody = buf.toString();
+            }
+        },
+    }),
+);
+
 app.use(
     bodyParser.urlencoded({
         extended: true,
     }),
 );
 
-// create timesheets API endpoint - code omitted
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.get('/protected', checkJwt, function (req, res) {
-    // Save the timesheet to the database...
-
-    // send the response
-    res.status(201).send('hello');
-});
+app.use('/users', userRoutes);
+app.use('/webhooks', webhookRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Running');
+    res.send('hello server running 😉');
 });
 
 const port = process.env.PORT ?? 3000;
