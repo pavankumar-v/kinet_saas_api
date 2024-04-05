@@ -29,13 +29,21 @@ export const verifyWebhookEvent = (secret: string): RequestHandler => {
         return next();
         const signature = crypto
             .createHmac(sigHashAlg, secret)
-            .update(JSON.stringify(req.body))
+            .update(JSON.stringify(req.rawBody), 'utf8')
             .digest('base64');
 
-        if (!(req.headers[sigHeaderName] === signature)) {
-            res.status(401).send('Unauthorized');
+        if (
+            compareSignatures(signature, req.headers[sigHeaderName]?.toString() || '')
+        ) {
+            next();
         }
 
-        next();
+        return res.status(401).send(req.body);
     };
 };
+
+function compareSignatures(signature: string, comparison_signature: string) {
+    const source = Buffer.from(signature);
+    const comparison = Buffer.from(comparison_signature);
+    return crypto.timingSafeEqual(source, comparison);
+}
