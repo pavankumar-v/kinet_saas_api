@@ -8,7 +8,8 @@
     "start": "node dist/src/index.js",
     "dev": "nodemon src/index.ts",
     "prepare": "bash .husky/pre-commit",
-    "migrate:dev": "npx dotenv -e .env.development -- npx prisma migrate dev"
+    "migrate:dev": "npx dotenv -e .env.development -- npx prisma migrate dev",
+    "db:seed": "npx ts-node seed/index.ts"
   },
   "keywords": [],
   "author": "",
