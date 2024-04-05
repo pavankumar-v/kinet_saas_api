@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(uuid())
   auth0_id    String   @unique
   email       String   @unique
   createdAt   DateTime @default(now())
