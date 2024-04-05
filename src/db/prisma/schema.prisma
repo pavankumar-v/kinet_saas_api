@@ -1,14 +1,16 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
 model User {
-  id          String    @id @default(uuid())
+  id          String    @id @default(dbgenerated("nanoid(7, '0123456789')"))
   auth0_id    String    @unique
   email       String    @unique
   createdAt   DateTime  @default(now())
@@ -19,7 +21,7 @@ model User {
 }
 
 model Account {
-  id     String @id @default(uuid())
+  id     String @id @default(dbgenerated("nanoid(7, '0123456789')"))
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
