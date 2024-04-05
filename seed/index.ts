@@ -9,10 +9,14 @@ async function main(): Promise<void> {
             email: 'Alice@prisma.io',
             family_name: 'Alice',
             given_name: 'bob',
+            Account: {
+                create: {},
+            },
         },
     });
     const allUsers = await prisma.user.findMany();
-    console.log(allUsers);
+    const allAccounts = await prisma.account.findMany();
+    console.log(allUsers, allAccounts);
 }
 
 main()
